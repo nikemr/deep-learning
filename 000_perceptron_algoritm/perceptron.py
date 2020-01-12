@@ -7,7 +7,7 @@ import csv
 doesn't work in terminal. Need to learn how is it possible in terminal""" 
 %matplotlib
 
-#exampleFile = open('./perceptron_algoritm/data.csv')
+#exampleFile = open('./000_perceptron_algoritm/data.csv')
 #exampleReader = csv.reader(exampleFile)
 #exampleData = list(exampleReader) 
 exampleData=pd.read_csv('./data.csv')
