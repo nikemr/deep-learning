@@ -36,7 +36,7 @@ error = y - nn_output
 #       Remember, this requires the output gradient, which we haven't
 #       specifically added a variable for.
 
-#*******gradiend of the weight as far as I understand: error_term= gradient
+#*******gradiend of the weight as far as I understand: error_term= error * gradient
 error_term = error * sigmoid_prime(h)
 # Note: The sigmoid_prime function calculates sigmoid(h) twice,
 #       but you've already calculated it once. You can make this
