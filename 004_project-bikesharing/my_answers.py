@@ -20,7 +20,7 @@ class NeuralNetwork(object):
         #
         # Note: in Python, you can define a function with a lambda expression,
         # as shown below.
-        self.activation_function = lambda x : 0  # Replace 0 with your sigmoid calculation.
+        self.activation_function = lambda x : 1/(1+np.exp(-x))  # Replace 0 with your sigmoid calculation.
         
         ### If the lambda code above is not something you're familiar with,
         # You can uncomment out the following three lines and put your 
@@ -64,12 +64,12 @@ class NeuralNetwork(object):
         #### Implement the forward pass here ####
         ### Forward pass ###
         # TODO: Hidden layer - Replace these values with your calculations.
-        hidden_inputs = None # signals into hidden layer
-        hidden_outputs = None # signals from hidden layer
+        hidden_inputs = np.dot(X,self.weights_input_to_hidden) # signals into hidden layer
+        hidden_outputs = self.activation_function(hidden_inputs) # signals from hidden layer
 
         # TODO: Output layer - Replace these values with your calculations.
-        final_inputs = None # signals into final output layer
-        final_outputs = None # signals from final output layer
+        final_inputs = np.dot(hidden_outputs,self.weights_hidden_to_output) # signals into final output layer
+        final_outputs = self.activation_function(final_inputs) # signals from final output layer
         
         return final_outputs, hidden_outputs
 
@@ -88,20 +88,21 @@ class NeuralNetwork(object):
         ### Backward pass ###
 
         # TODO: Output error - Replace this value with your calculations.
-        error = None # Output layer error is the difference between desired target and actual output.
-        
+        error =  y - final_outputs # Output layer error is the difference between desired target and actual output.
+
+        output_error_term = error * final_outputs * (1- final_outputs)
         # TODO: Calculate the hidden layer's contribution to the error
-        hidden_error = None
+        hidden_error = np.dot( self.weights_hidden_to_output,output_error_term)
         
-        # TODO: Backpropagated error terms - Replace these values with your calculations.
-        output_error_term = None
+        # TODO: Backpropagated error terms - Replace these values with your calculations.        
         
-        hidden_error_term = None
+        hidden_error_term = hidden_error * (hidden_outputs) * (1 - hidden_outputs)
         
         # Weight step (input to hidden)
-        delta_weights_i_h += None
+        # X[:, None]X[:, None]X[:, None]X[:, None]X[:, None]X[:, None] hatalı olabilir
+        delta_weights_i_h +=hidden_error_term * X[:,None]
         # Weight step (hidden to output)
-        delta_weights_h_o += None
+        delta_weights_h_o += output_error_term * hidden_outputs  
         return delta_weights_i_h, delta_weights_h_o
 
     def update_weights(self, delta_weights_i_h, delta_weights_h_o, n_records):
@@ -114,8 +115,8 @@ class NeuralNetwork(object):
             n_records: number of records
 
         '''
-        self.weights_hidden_to_output += None # update hidden-to-output weights with gradient descent step
-        self.weights_input_to_hidden += None # update input-to-hidden weights with gradient descent step
+        self.weights_hidden_to_output += self.lr * delta_weights_h_o/n_records # update hidden-to-output weights with gradient descent step
+        self.weights_input_to_hidden += self.lr * delta_weights_i_h/n_records # update input-to-hidden weights with gradient descent step
 
     def run(self, features):
         ''' Run a forward pass through the network with input features 
@@ -127,12 +128,12 @@ class NeuralNetwork(object):
         
         #### Implement the forward pass here ####
         # TODO: Hidden layer - replace these values with the appropriate calculations.
-        hidden_inputs = None # signals into hidden layer
-        hidden_outputs = None # signals from hidden layer
+        hidden_inputs =hidden_inputs = np.dot(features, self.weights_input_to_hidden) # signals into hidden layer # signals into hidden layer
+        hidden_outputs = self.activation_function(hidden_inputs) # signals from hidden layer
         
         # TODO: Output layer - Replace these values with the appropriate calculations.
-        final_inputs = None # signals into final output layer
-        final_outputs = None # signals from final output layer 
+        final_inputs = np.dot(hidden_outputs, self.weights_hidden_to_output) # signals into final output layer
+        final_outputs = self.activation_function(final_inputs)# signals from final output layer 
         
         return final_outputs
 
@@ -144,3 +145,48 @@ iterations = 100
 learning_rate = 0.1
 hidden_nodes = 2
 output_nodes = 1
+#########################################################
+# TO BE DELETED
+##########################################################
+""" import pandas as pd
+import matplotlib.pyplot as plt
+
+data_path = 'Bike-Sharing-Dataset/hour.csv'
+
+rides = pd.read_csv(data_path)
+
+dummy_fields = ['season', 'weathersit', 'mnth', 'hr', 'weekday']
+for each in dummy_fields:
+    dummies = pd.get_dummies(rides[each], prefix=each, drop_first=False)
+    rides = pd.concat([rides, dummies], axis=1)
+
+fields_to_drop = ['instant', 'dteday', 'season', 'weathersit', 
+                  'weekday', 'atemp', 'mnth', 'workingday', 'hr']
+data = rides.drop(fields_to_drop, axis=1)
+
+quant_features = ['casual', 'registered', 'cnt', 'temp', 'hum', 'windspeed']
+# Store scalings in a dictionary so we can convert back later
+scaled_features = {}
+for each in quant_features:
+    mean, std = data[each].mean(), data[each].std()
+    scaled_features[each] = [mean, std]
+    data.loc[:, each] = (data[each] - mean)/std
+
+# Save data for approximately the last 21 days 
+test_data = data[-21*24:]
+
+# Now remove the test data from the data set 
+data = data[:-21*24]
+
+# Separate the data into features and targets
+target_fields = ['cnt', 'casual', 'registered']
+features, targets = data.drop(target_fields, axis=1), data[target_fields]
+test_features, test_targets = test_data.drop(target_fields, axis=1), test_data[target_fields]
+
+
+train_features, train_targets = features[:-60*24], targets[:-60*24]
+val_features, val_targets = features[-60*24:], targets[-60*24:]
+
+
+network = NeuralNetwork(3, 2, 1, 0.5)
+ """
