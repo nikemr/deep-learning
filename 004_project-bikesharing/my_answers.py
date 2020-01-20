@@ -148,59 +148,27 @@ class NeuralNetwork(object):
 #########################################################
 # Set your hyperparameters here
 ##########################################################
-iterations = 18000
-learning_rate = 0.09
-hidden_nodes = 40
-output_nodes = 1
+# iterations = 3000
+# learning_rate = 0.50
+# hidden_nodes = 26
+# output_nodes = 1 # Training loss: 0.079 ... Validation loss: 0.170
 
+iterations = 4000
+learning_rate = 0.49
+hidden_nodes = 28
+output_nodes = 1 #Training loss: 0.077 ... Validation loss: 0.164
 
+# iterations = 3000
+# learning_rate = 0.45
+# hidden_nodes = 30
+# output_nodes = 1 #Training loss: 0.083 ... Validation loss: 0.173
 
+# iterations = 3000
+# learning_rate = 0.5
+# hidden_nodes = 27
+# output_nodes = 1 #Training loss: 0.084 ... Validation loss: 0.177
 
-#########################################################
-# TO BE DELETED
-##########################################################
-
-
-
-""" import pandas as pd
-import matplotlib.pyplot as plt
-
-data_path = 'Bike-Sharing-Dataset/hour.csv'
-
-rides = pd.read_csv(data_path)
-
-dummy_fields = ['season', 'weathersit', 'mnth', 'hr', 'weekday']
-for each in dummy_fields:
-    dummies = pd.get_dummies(rides[each], prefix=each, drop_first=False)
-    rides = pd.concat([rides, dummies], axis=1)
-
-fields_to_drop = ['instant', 'dteday', 'season', 'weathersit', 
-                  'weekday', 'atemp', 'mnth', 'workingday', 'hr']
-data = rides.drop(fields_to_drop, axis=1)
-
-quant_features = ['casual', 'registered', 'cnt', 'temp', 'hum', 'windspeed']
-# Store scalings in a dictionary so we can convert back later
-scaled_features = {}
-for each in quant_features:
-    mean, std = data[each].mean(), data[each].std()
-    scaled_features[each] = [mean, std]
-    data.loc[:, each] = (data[each] - mean)/std
-
-# Save data for approximately the last 21 days 
-test_data = data[-21*24:]
-
-# Now remove the test data from the data set 
-data = data[:-21*24]
-
-# Separate the data into features and targets
-target_fields = ['cnt', 'casual', 'registered']
-features, targets = data.drop(target_fields, axis=1), data[target_fields]
-test_features, test_targets = test_data.drop(target_fields, axis=1), test_data[target_fields]
-
-
-train_features, train_targets = features[:-60*24], targets[:-60*24]
-val_features, val_targets = features[-60*24:], targets[-60*24:]
-
-
-network = NeuralNetwork(3, 2, 1, 0.5)
- """
+# iterations = 3000
+# learning_rate = .55
+# hidden_nodes = 27
+# output_nodes = 1 #Training loss: 0.070 ... Validation loss: 0.157
