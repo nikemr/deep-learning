@@ -3,3 +3,4 @@ deep-learning-v2-pytorch-master/
 __pycache__/
 Cat_Dog_data
 *.pth
+**/data/raw
