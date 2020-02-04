@@ -1,3 +1,6 @@
 deep-learning-v2-pytorch-master/
 *checkpoint.ipynb
 __pycache__/
+Cat_Dog_data
+*.pth
+**/data/raw
