@@ -6,3 +6,5 @@ Cat_Dog_data
 *.pt
 **/data/raw
 **/cifar-cnn/data
+**/lfw
+**/dogImages
