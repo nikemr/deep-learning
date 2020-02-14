@@ -8,3 +8,5 @@ Cat_Dog_data
 **/cifar-cnn/data
 **/lfw
 **/dogImages
+**/data/dog_images
+**/data/lfw
