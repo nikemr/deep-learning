@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/home/nikemr/anaconda3/envs/deep-learning/bin/python",
+    "python.pythonPath": "D:\\Programs\\Anaconda3\\envs\\ai_python\\python.exe",
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true
 }
